@@ -21,7 +21,7 @@ RSpec.describe "A user submits a link" do
       user_1 = FactoryGirl.create(:user, email: 'a@gmail.com')
       user_2 = FactoryGirl.create(:user, email: 'b@gmail.com')
       sign_in user_2
-      FactoryGirl.create(:link, user: user_1, title: 'Example')
+      FactoryGirl.create(:link, user_id: user_1, title: 'Example')
 
       visit '/'
 
@@ -31,6 +31,17 @@ RSpec.describe "A user submits a link" do
   
   context "it is not valid" do
     it "returns an error message" do
+      sign_in FactoryGirl.create(:user)
+
+      visit '/links'
+      fill_in "link_title", with: 'Example'
+      fill_in "link_url", with: 'WHEEOOWHEEOOWHEEOO' 
+      click_on 'Submit Link' 
+
+      expect(page).to have_content "Invalid link"
+      within('.link') do
+        expect(page).not_to have_content('Example')
+      end
     end
   end
 end
