@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rails_12factor'
 gem 'responders'
 gem 'awesome_print'
+gem 'devise'
 # gem 'bcrypt', '~> 3.1.7'
 
 # gem 'unicorn'
