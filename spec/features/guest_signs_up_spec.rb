@@ -16,7 +16,7 @@ RSpec.describe "A guest signs up" do
 
   context "they sign up with an email address that has already been used" do
     it "returns an error message" do
-      User.create(email: 'b@gmail.com', password: 'pass', password_confirmation: 'pass')
+      FactoryGirl.create(:user, email: 'b@gmail.com')
 
       visit '/'
       click_on 'Sign Up'
@@ -25,7 +25,7 @@ RSpec.describe "A guest signs up" do
       fill_in 'user_password_confirmation', with: 'password'
       click_on 'Sign up'
 
-      expect(page).to have_content('A user with this email already exists.')
+      expect(page).to have_content('Email has already been taken')
     end
   end
 

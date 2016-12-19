@@ -6,9 +6,9 @@ RSpec.describe "A user signs out" do
 
     visit '/links'
 
-    expect(page).not_to have_link('Sign in')
+    expect(page).not_to have_link('Log in')
     click_on 'Sign out'
 
-    expect(page).to have_link('Sign in')
+    expect(page).to have_link('Log in')
   end
 end
