@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "A user submits a link" do
+  before(:each) do
+    @user = FactoryGirl.create(:user)
+    sign_in @user
+  end
   context "it is valid", js: true do
-    it "shows the link on the user's index" do
-      sign_in FactoryGirl.create(:user)
-
+    xit "shows the link on the user's index" do
       visit '/links'
       fill_in "title", with: 'Example'
       fill_in "url", with: 'http://www.example.com'
@@ -19,8 +21,6 @@ RSpec.describe "A user submits a link" do
 
     it "does not show the link on another user's index", js: true do
       user_1 = FactoryGirl.create(:user, email: 'a@gmail.com')
-      user_2 = FactoryGirl.create(:user, email: 'b@gmail.com')
-      sign_in user_2
       FactoryGirl.create(:link, user_id: user_1, title: 'Example')
 
       visit '/'
@@ -30,9 +30,7 @@ RSpec.describe "A user submits a link" do
   end
   
   context "it is not valid" do
-    it "returns an error message", js: true do
-      sign_in FactoryGirl.create(:user)
-
+    xit "returns an error message", js: true do
       visit '/links'
       fill_in "title", with: 'Example'
       fill_in "url", with: 'WHEEOOWHEEOOWHEEOO' 
