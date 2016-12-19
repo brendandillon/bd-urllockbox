@@ -1,11 +1,15 @@
 var $newLinkTitle, $newLinkUrl;
 
 $(document).ready(function(){
-
+    
   $newLinkTitle = $("#link_title");
   $newLinkUrl  = $("#link_url");
 
   $("#submit_link").on('click', createLink);
+  $.getJSON('/api/v1/links')
+    .then(function(links) {
+      links.forEach(renderLink);
+    })
 })
 
 function createLink (event){
