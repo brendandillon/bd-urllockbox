@@ -25,7 +25,7 @@ RSpec.describe "A guest signs up" do
       fill_in 'user_password_confirmation', with: 'password'
       click_on 'Sign up'
 
-      expect(flash[:alert]).to eq('A user with this email already exists.')
+      expect(page).to have_content('A user with this email already exists.')
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe "A guest signs up" do
       fill_in 'user_password_confirmation', with: 'punks_not_dead'
       click_on 'Sign up'
 
-      expect(flash[:alert]).to eq('The password and confirmation do not match.')
+      expect(page).to have_content("Password confirmation doesn't match")
     end
   end
 end
