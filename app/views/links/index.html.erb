@@ -1,1 +1,9 @@
 <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
+<h3>Submit New Link</h3>
+<div id='link_form'>
+  <%= text_field_tag :title, nil, placeholder: 'Title', id: 'link_title' %>
+  <%= text_field_tag :url, nil, placeholder: 'URL', id: 'link_url' %>
+  <%= submit_tag 'Submit Link', id: 'submit_link' %>
+<div>
+<div id='links_list'>
+</div>

@@ -55,5 +55,5 @@ function clearLink() {
 }
 
 function displayFailure(failureData){
-  console.log("FAILED attempt to create new Link: " + failureData.responseText);
+  $('#link_form').prepend("FAILED attempt to create new Link: " + failureData.responseText);
 }
