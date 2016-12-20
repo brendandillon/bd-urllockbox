@@ -36,24 +36,30 @@ function getLinkData() {
 function renderLink(link){
   $.when(
     $("#links_list").append( linkHTML(link) )
-    ).then( function(){
-      $('.edit-link').on('click', editLink);
-    })
+    ).then(function(){
+      if(!link.read){
+        $('.read-block').last().append("<button class='mark-as-read'>Mark as Read</button>")
+      }
+   }).then(
+      $('.edit-link').last().on('click', editLink)
+    ).then(
+      $('.mark-as-read').last().on('click', markRead)
+    )
   // clearLink();
 }
 
 function linkHTML(link) {
 
+    var readStatus = "Unread";
+    if (link.read) { readStatus = "Read" };
     return `<div class='link' data-id='${link.id}' id="link-${link.id}">
               <p class='link-title' contenteditable=false>${ link.title }</p>
               <p class='link-url' contenteditable=false>${ link.url }</p>
 
-              <p class="link_read">
-                ${ link.read }
+              <p class='read-block'>
+                <span class="link-read">${ readStatus }</span>
               </p>
               <p class="link_buttons">
-                <button class="upgrade-quality">+</button>
-                <button class="downgrade-quality">-</button>
                 <button class='edit-link'>Edit</button>
                 <button class='delete-link'>Delete</button>
               </p>
@@ -66,7 +72,7 @@ function clearLink() {
 }
 
 function displayFailure(failureData){
-  $('#link_form').prepend("FAILED attempt to create new Link: " + failureData.responseText);
+  $('#link_form').prepend("FAILED attempt to create new Link: " + failureData.responseText + "<br>");
 }
 
 function editLink() {
@@ -107,3 +113,30 @@ function submitChanges(){
     $(this).on('click', editLink)
   )
 } 
+
+function markRead() {
+  var parent_link = $(this).closest('.link')
+  var id = $(parent_link).data('id')
+  var title = $(parent_link).find('.link-title').text();
+  var url = $(parent_link).find('.link-url').text();
+  $.ajax({
+    url: '/api/v1/links/' + id,
+    type: 'PUT',
+    data: {
+      read: true
+    }
+  }).then(
+    $(this).siblings('.link-read').text('Read')
+  ).then(
+  $.post({
+    url: 'http://0.0.0.0:3001/add_link',
+    data: {
+      title: title,
+      url: url
+    },
+    dataType: 'jsonp'
+  })).then(
+    $(this).remove()
+    )
+
+}
