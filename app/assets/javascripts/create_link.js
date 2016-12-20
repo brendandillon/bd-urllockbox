@@ -129,7 +129,7 @@ function markRead() {
     $(this).siblings('.link-read').text('Read')
   ).then(
   $.post({
-    url: 'http://0.0.0.0:3001/add_link',
+    url: 'http://bd-hotreads.herokuapp.com/add_link',
     data: {
       title: title,
       url: url
